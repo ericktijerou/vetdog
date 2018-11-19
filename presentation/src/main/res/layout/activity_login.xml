@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".dog.list.MainActivity">
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="erick.mobile.presentation.dog.list.DogListViewModel" />
+
+        <variable
+                name="fabClick"
+                type="android.view.View.OnClickListener" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:showLongMessage="@{viewModel.error}">
+
+        <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/appbar_padding_top"
+                android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabMode="scrollable" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:onRefreshListener="@{() -> viewModel.refresh()}"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:refreshing="@{viewModel.loading}">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_event"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:eventAdapter="@{viewModel.result}"
+                    app:fadeView="@{!viewModel.loading}"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:showLongMessage="@{viewModel.error}"
+                    tools:listitem="@layout/dog_list_item" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:fadeView="@{viewModel.loading}" />
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="@dimen/fab_margin"
+                android:onClick="@{fabClick}"
+                app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

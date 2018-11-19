@@ -1,0 +1,63 @@
+allprojects {
+    apply plugin: 'jacoco'
+
+    jacoco {
+        toolVersion jacocoVersion
+    }
+
+    tasks.withType(Test) {
+        jacoco.includeNoLocationClasses = true
+    }
+}
+
+FileCollection jacocoSourceDirectories(Set subprojects) {
+    Set srcDirs = []
+    subprojects.each { project ->
+        srcDirs.add("$project.projectDir/src/main/kotlin")
+    }
+    return files(srcDirs)
+}
+
+FileTree jacocoClassDirectories(Set subprojects) {
+    List<String> excludes = [
+            // Android
+            'android/**/*.*',
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            // Databinding
+            '**/databinding/*Binding.*',
+            '**/BR.class',
+            // Dependency Injection
+            '**/injection/**/*.*',
+            // Pojos, Models, Entities
+            '**/model/*.*',
+            '**/entity/*.*'
+    ]
+    def classDirectories = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", exclude: excludes)
+    subprojects.each { project ->
+        classDirectories += fileTree(dir: "$project.buildDir/classes/kotlin/main", exclude: excludes)
+        classDirectories += fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", exclude: excludes)
+    }
+    return classDirectories
+}
+
+task jacocoTestReport(type: JacocoReport,
+        dependsOn: [":data:testDebugUnitTest",
+                    ":domain:test",
+                    ":presentation:testDebugUnitTest"]) {
+    group = 'Reporting'
+    description = 'Generate JaCoCo coverage reports'
+
+    sourceDirectories = jacocoSourceDirectories(subprojects)
+    classDirectories = jacocoClassDirectories(subprojects)
+    executionData = rootProject.fileTree(dir: '.', includes: [
+            "**/testDebugUnitTest.exec", "**/test.exec", "**/*coverage.ec"
+    ])
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        html.destination file("${rootProject.buildDir}/reports/coverage")
+    }
+}
