@@ -8,17 +8,17 @@ data class BreedLocalModel(
 
     @PrimaryKey var id: Int,
 
-    var lifeSpan: String,
+    var lifeSpan: String? = null,
 
-    var breedGroup: String,
+    var breedGroup: String? = null,
 
-    var temperament: String,
+    var temperament: String? = null,
 
-    var name: String,
+    var name: String? = null,
 
-    var bredFor: String,
+    var bredFor: String? = null,
 
-    var weight: String,
+    var weight: String? = null,
 
-    var height: String
+    var height: String? = null
 )

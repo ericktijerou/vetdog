@@ -7,7 +7,7 @@ import erick.mobile.domain.entity.Dog
 
 class InventoryMapper {
     fun toEntity(dog: DogLocalModel) =
-        Dog(null, dog.id, dog.url, toListEntity(dog.breeds))
+        Dog(dog.id, dog.url, toListEntity(dog.breeds))
 
     fun toEntity(breed: BreedLocalModel) = Breed(
         breed.id,
@@ -15,7 +15,6 @@ class InventoryMapper {
         breed.breedGroup,
         breed.temperament,
         breed.name,
-        breed.bredFor,
         breed.weight,
         breed.height
     )

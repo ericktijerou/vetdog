@@ -4,9 +4,6 @@ import com.squareup.moshi.Json
 
 data class DogRemoteModel(
 
-	@Json(name="categories")
-	val categories: List<Any?>? = null,
-
 	@Json(name="id")
 	val id: String? = null,
 

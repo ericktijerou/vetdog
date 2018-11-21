@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import erick.mobile.presentation.R
 import erick.mobile.presentation.databinding.ActivityLoginBinding
+import erick.mobile.presentation.databinding.DogListItemBinding
 import erick.mobile.presentation.dog.list.model.DogModel
 
 class DogListAdapter(private val items: List<DogModel>, private val callbacks: Callbacks? = null) :
@@ -18,7 +19,7 @@ class DogListAdapter(private val items: List<DogModel>, private val callbacks: C
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding: ActivityLoginBinding = DataBindingUtil.inflate(inflater, R.layout.dog_list_item, parent, false)
+        val binding: DogListItemBinding = DataBindingUtil.inflate(inflater, R.layout.dog_list_item, parent, false)
         return ViewHolder(binding)
     }
 
@@ -29,7 +30,7 @@ class DogListAdapter(private val items: List<DogModel>, private val callbacks: C
 
     override fun getItemCount(): Int = items.size
 
-    inner class ViewHolder(val binding: ActivityLoginBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: DogListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener { callbacks?.onItemClick(it, items[adapterPosition]) }
         }
