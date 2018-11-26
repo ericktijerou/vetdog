@@ -14,11 +14,11 @@ interface BreedDao {
     fun getAll(): Maybe<List<DogLocalModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg events: DogLocalModel)
+    fun insertAll(vararg dogs: DogLocalModel)
 
     @Query("SELECT * FROM Breed WHERE id = :id")
     fun getById(id: Int): Maybe<DogLocalModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(event: DogLocalModel)
+    fun insert(dog: DogLocalModel)
 }

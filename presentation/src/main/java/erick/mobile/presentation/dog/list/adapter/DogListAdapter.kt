@@ -24,7 +24,7 @@ class DogListAdapter(private val items: List<DogModel>, private val callbacks: C
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //holder.binding.do = items[position]
+        holder.binding.dog = items[position]
         holder.binding.executePendingBindings()
     }
 

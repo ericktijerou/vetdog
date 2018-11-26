@@ -13,6 +13,11 @@
         <variable
                 name="fabClick"
                 type="android.view.View.OnClickListener" />
+
+        <variable
+                name="dogCallbacks"
+                type="erick.mobile.presentation.dog.list.adapter.DogListAdapter.Callbacks" />
+
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -55,10 +60,10 @@
                 app:refreshing="@{viewModel.loading}">
 
             <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_event"
+                    android:id="@+id/list_dog"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:eventAdapter="@{viewModel.result}"
+                    app:dogAdapter="@{viewModel.result}"
                     app:fadeView="@{!viewModel.loading}"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     app:showLongMessage="@{viewModel.error}"

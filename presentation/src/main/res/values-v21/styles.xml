@@ -5,7 +5,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="AppTheme.Event" parent="AppTheme.NoActionBar.TranslucentStatusBar">
+    <style name="AppTheme.Dog" parent="AppTheme.NoActionBar.TranslucentStatusBar">
         <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 

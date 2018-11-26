@@ -9,7 +9,7 @@ import io.reactivex.Observable
 class DogRepository(
     private val dogLocalDataSource: DogLocalDataSource,
     private val dogRemoteDataSource: DogRemoteDataSource,
-    private val eventMapper: DogMapper) {
+    private val dogMapper: DogMapper) {
 
     fun findBySize(size: String, limit: Int, refresh: Boolean = false): Observable<List<DogLocalModel>> {
 
@@ -17,7 +17,7 @@ class DogRepository(
             .filter { !it.isEmpty() }
 
         val remote = dogRemoteDataSource.findBySize(size, limit)
-            .map { eventMapper.toLocal(it) }
+            .map { dogMapper.toLocal(it) }
             .doOnNext { dogLocalDataSource.insertAll(it) }
 
         return Observable.just(refresh)

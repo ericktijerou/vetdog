@@ -14,7 +14,7 @@ interface DogDao {
     fun getAll(): Maybe<List<DogLocalModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg events: DogLocalModel)
+    fun insertAll(vararg dogs: DogLocalModel)
 
     @Query("DELETE FROM Dog")
     fun deleteByType()
@@ -23,5 +23,5 @@ interface DogDao {
     fun getById(id: Int): Maybe<DogLocalModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(event: DogLocalModel)
+    fun insert(dog: DogLocalModel)
 }
