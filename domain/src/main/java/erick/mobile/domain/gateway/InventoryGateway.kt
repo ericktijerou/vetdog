@@ -7,4 +7,5 @@ interface InventoryGateway {
 
     fun getDogs(size: String, limit: Int, refresh: Boolean = false): Observable<List<Dog>>
 
+    fun getDogById(id: String): Observable<Dog>
 }

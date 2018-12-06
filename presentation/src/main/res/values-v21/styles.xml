@@ -7,6 +7,9 @@
 
     <style name="AppTheme.Dog" parent="AppTheme.NoActionBar.TranslucentStatusBar">
         <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowEnterTransition">@transition/dog_detail_enter</item>
+        <item name="android:windowReturnTransition">@transition/dog_detail_return</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/dog_shared_element_return</item>
     </style>
 
 </resources>

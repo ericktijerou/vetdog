@@ -13,6 +13,7 @@ class DogFindBySizeUseCase(schedulers: Schedulers, private val inventoryGateway:
     override fun buildObservable(params: Pair<String, Boolean>?): Observable<List<Dog>> {
         if (params == null) throw MissingUseCaseParameterException(javaClass)
         val (size, refresh) = params
-        return inventoryGateway.getDogs(size, 10, refresh)
+        return inventoryGateway.
+            getDogs(size, 10, refresh)
     }
 }

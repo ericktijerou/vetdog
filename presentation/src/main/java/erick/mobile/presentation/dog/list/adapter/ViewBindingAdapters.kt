@@ -8,7 +8,7 @@ object ViewBindingAdapters {
 
     @JvmStatic
     @BindingAdapter("dogAdapter", "dogCallbacks", requireAll = false)
-    fun setEventAdapter(recyclerView: RecyclerView, items: List<DogModel>?, callbacks: DogListAdapter.Callbacks?) {
+    fun setDogAdapter(recyclerView: RecyclerView, items: List<DogModel>?, callbacks: DogListAdapter.Callbacks?) {
         items?.let {
             recyclerView.setHasFixedSize(true)
             recyclerView.adapter = DogListAdapter(it, callbacks)

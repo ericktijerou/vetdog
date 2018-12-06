@@ -54,5 +54,7 @@ class TheDogApi(baseUrl: String) : TheDogService {
         service = retrofit.create(TheDogService::class.java)
     }
 
+    override fun getDog(id: String): Observable<DogRemoteModel> = service.getDog(id)
+
     override fun getDogs(size: String, limit: Int): Observable<List<DogRemoteModel>> = service.getDogs(size, limit)
 }

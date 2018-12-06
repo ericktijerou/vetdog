@@ -1,13 +1,11 @@
-package erick.mobile.presentation.dog.list
+package erick.mobile.presentation.dog.detail
 
 import android.app.Application
 import android.content.Context
-import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
-import android.util.Log
 import erick.mobile.domain.entity.Dog
-import erick.mobile.domain.interactor.DogFindBySizeUseCase
+import erick.mobile.domain.interactor.DogGetByIdUseCase
 import erick.mobile.presentation.R
 import erick.mobile.presentation.dog.list.mapper.DogMapper
 import erick.mobile.presentation.dog.list.model.DogModel
@@ -15,40 +13,31 @@ import erick.mobile.presentation.internal.util.BaseAndroidViewModel
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 
-class DogListViewModel(context: Context, private val dogFindBySizeUseCase: DogFindBySizeUseCase)
+class DogDetailViewModel(context: Context,
+                         private val eventGetByIdUseCase: DogGetByIdUseCase)
     : BaseAndroidViewModel(context.applicationContext as Application) {
 
     private val mapper = DogMapper(context)
 
     val loading = ObservableBoolean()
-    val result = ObservableArrayList<DogModel>()
+    val dog = ObservableField<DogModel>()
     val error = ObservableField<String>()
-    val empty = ObservableBoolean()
 
-    private var type = "med"
+    fun loadEventDetail(id: String) = addDisposable(getEventById(id))
 
-    fun loadDogList(type: String, refresh: Boolean = false) {
-        this.type = type
-        addDisposable(findDogByType(type, refresh))
-    }
-
-    fun refresh() = loadDogList(type, true)
-
-    private fun findDogByType(type: String, refresh: Boolean): Disposable {
-        val params = Pair(type, refresh)
-        return dogFindBySizeUseCase.execute(params)
-            .subscribeWith(object : DisposableObserver<List<Dog>>() {
+    private fun getEventById(id: String): Disposable {
+        return eventGetByIdUseCase.execute(id)
+            .subscribeWith(object : DisposableObserver<Dog>() {
 
                 override fun onStart() {
                     loading.set(true)
-                    empty.set(false)
                 }
 
-                override fun onNext(t: List<Dog>) {
+                override fun onNext(result: Dog) {
                     loading.set(false)
-                    result.clear()
-                    result.addAll(t.map { mapper.toModel(it) })
-                    empty.set(t.isEmpty())
+                    dog.set(mapper.toModel(result))
+
+                    //addDisposable(getVenueById(result))
                 }
 
                 override fun onError(t: Throwable) {
@@ -57,7 +46,7 @@ class DogListViewModel(context: Context, private val dogFindBySizeUseCase: DogFi
                 }
 
                 override fun onComplete() {
-                    Log.d("asd", "asdasd")
+                    // no-op
                 }
             })
     }

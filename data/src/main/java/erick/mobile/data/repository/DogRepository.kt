@@ -28,4 +28,17 @@ class DogRepository(
                     .toObservable()
             }
     }
+
+    fun getById(id: String): Observable<DogLocalModel> {
+
+        val local = dogLocalDataSource.getById(id)
+
+        val remote = dogRemoteDataSource.getById(id)
+            .map { dogMapper.toLocal(it) }
+            .doOnNext { dogLocalDataSource.insert(it) }
+
+        return Observable.concat(local, remote)
+            .firstElement()
+            .toObservable()
+    }
 }

@@ -6,4 +6,5 @@ import io.reactivex.Observable
 
 class DogRemoteDataSource(private val theDogService: TheDogService) {
     fun findBySize(size: String, limit: Int): Observable<List<DogRemoteModel>> = theDogService.getDogs(size, limit)
+    fun getById(id: String): Observable<DogRemoteModel> = theDogService.getDog(id)
 }

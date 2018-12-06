@@ -20,7 +20,7 @@ interface DogDao {
     fun deleteByType()
 
     @Query("SELECT * FROM Dog WHERE id = :id")
-    fun getById(id: Int): Maybe<DogLocalModel>
+    fun getById(id: String): Maybe<DogLocalModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dog: DogLocalModel)
