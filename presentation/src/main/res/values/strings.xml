@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Veterinary</string>
+    <string name="app_name">Vetdog</string>
 
     <!--Menu Actions-->
     <string name="action_search">Search</string>
