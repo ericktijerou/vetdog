@@ -5,7 +5,7 @@
     <transitionSet>
         <slide android:slideEdge="end">
             <targets>
-                <target android:targetId="@id/card_price" />
+                <target android:targetId="@id/fbShare" />
                 <target android:targetId="@id/text_venue" />
                 <target android:targetId="@id/rating_bar" />
             </targets>

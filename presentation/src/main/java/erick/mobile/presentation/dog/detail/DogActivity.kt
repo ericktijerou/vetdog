@@ -5,9 +5,13 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.Observable
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import androidx.view.doOnPreDraw
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import dagger.android.support.DaggerAppCompatActivity
 import erick.mobile.presentation.R
 import erick.mobile.presentation.databinding.ActivityDogBinding
@@ -16,6 +20,9 @@ import erick.mobile.presentation.navigation.Navigator
 import javax.inject.Inject
 
 class DogActivity : DaggerAppCompatActivity() {
+
+    private val DYNAMIC_LINK_DOMAIN = "vetdog.page.link"
+    private val QUERY_PARAM_SALAD = "dogId"
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -54,5 +61,54 @@ class DogActivity : DaggerAppCompatActivity() {
 
     override fun getParentActivityIntent(): Intent {
         return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    }
+
+    private fun share(id: String) {
+        val myUri = createShareUri(id)
+        Log.d("Shared Link",  myUri.toString())
+
+        val dynamicLinkUri = createDynamicUri(myUri)
+        Log.d("Dynamic Link", dynamicLinkUri.toString())
+
+        shortenLink(dynamicLinkUri)
+    }
+
+    private fun createShareUri(saladId: String): Uri {
+        val builder = Uri.Builder()
+        builder.scheme("http") // "http"
+            .authority("vetdog.page.link") // "365salads.xyz"
+            .appendPath("dog") // "salads"
+            .appendQueryParameter(QUERY_PARAM_SALAD, saladId)
+        return builder.build()
+    }
+
+    private fun shortenLink(linkUri: Uri) {
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+            .setLongLink(linkUri)
+            .buildShortDynamicLink()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val shortLink = task.result?.shortLink
+                    val msg = "Hey, check out this nutritious salad I found: $shortLink"
+                    val sendIntent = Intent()
+                    sendIntent.action = Intent.ACTION_SEND
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, msg)
+                    sendIntent.type = "text/plain"
+                    startActivity(sendIntent)
+                } else {
+                    //Timber.e(task.exception)
+                }
+            }
+    }
+
+    private fun createDynamicUri(myUri: Uri): Uri {
+        val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+            .setLink(myUri)
+            .setDynamicLinkDomain(DYNAMIC_LINK_DOMAIN)
+            .setAndroidParameters(DynamicLink.AndroidParameters.Builder()
+                .build())
+//                .setIosParameters(DynamicLink.IosParameters.Builder("ibi").setFallbackUrl()build())
+            .buildDynamicLink()
+        return dynamicLink.uri
     }
 }
