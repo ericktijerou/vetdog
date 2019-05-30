@@ -8,6 +8,7 @@ import android.databinding.Observable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.view.doOnPreDraw
 import com.google.firebase.dynamiclinks.DynamicLink
@@ -22,9 +23,11 @@ import javax.inject.Inject
 
 class DogActivity : DaggerAppCompatActivity() {
 
-    private val DYNAMIC_LINK_DOMAIN = "vetdog.page.link"
-    private val QUERY_PARAM_DOG = "dogId"
-    private var fromLink : Boolean = false
+    companion object {
+        private val DYNAMIC_LINK_DOMAIN = "vetdog.page.link"
+        private val QUERY_PARAM_DOG = "dogId"
+        private var fromLink : Boolean = false
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -76,6 +79,17 @@ class DogActivity : DaggerAppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item?.itemId
+
+        if (id == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
