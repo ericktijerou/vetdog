@@ -78,6 +78,13 @@ class DogActivity : DaggerAppCompatActivity() {
         })
     }
 
+    override fun onBackPressed() {
+        if (fromLink) {
+            navigator.navigateToHome(this, fromLink)
+        } else {
+            super.onBackPressed()
+        }
+    }
     override fun getParentActivityIntent(): Intent {
         return super.getParentActivityIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
