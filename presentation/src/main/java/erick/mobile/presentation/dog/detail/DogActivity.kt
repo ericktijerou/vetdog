@@ -17,6 +17,7 @@ import erick.mobile.presentation.R
 import erick.mobile.presentation.databinding.ActivityDogBinding
 import erick.mobile.presentation.internal.util.lazyThreadSafetyNone
 import erick.mobile.presentation.navigation.Navigator
+import kotlinx.android.synthetic.main.content_dog.*
 import javax.inject.Inject
 
 class DogActivity : DaggerAppCompatActivity() {
@@ -47,8 +48,22 @@ class DogActivity : DaggerAppCompatActivity() {
 
         binder.dogDetailViewModel = eventDetailViewModel
 
-        val event = navigator.getDog(this)
-        eventDetailViewModel.loadEventDetail(event)
+        FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnFailureListener {
+            // error
+        }.addOnSuccessListener {
+            // deep link
+            val dogId = if (it == null) {
+                navigator.getDog(this)
+            } else {
+                it.link.getQueryParameter(QUERY_PARAM_SALAD)
+            }
+            eventDetailViewModel.loadEventDetail(dogId)
+            fbShare.setOnClickListener {
+                share(dogId)
+            }
+        }
+
+
 
         eventDetailViewModel.dog.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(observable: Observable, propertyId: Int) {
@@ -65,7 +80,7 @@ class DogActivity : DaggerAppCompatActivity() {
 
     private fun share(id: String) {
         val myUri = createShareUri(id)
-        Log.d("Shared Link",  myUri.toString())
+        Log.d("Shared Link", myUri.toString())
 
         val dynamicLinkUri = createDynamicUri(myUri)
         Log.d("Dynamic Link", dynamicLinkUri.toString())
@@ -75,9 +90,9 @@ class DogActivity : DaggerAppCompatActivity() {
 
     private fun createShareUri(saladId: String): Uri {
         val builder = Uri.Builder()
-        builder.scheme("http") // "http"
-            .authority("vetdog.page.link") // "365salads.xyz"
-            .appendPath("dog") // "salads"
+        builder.scheme(getString(R.string.config_scheme))
+            .authority(getString(R.string.config_host))
+            .appendPath(getString(R.string.config_path_dogs))
             .appendQueryParameter(QUERY_PARAM_SALAD, saladId)
         return builder.build()
     }
@@ -105,8 +120,10 @@ class DogActivity : DaggerAppCompatActivity() {
         val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
             .setLink(myUri)
             .setDynamicLinkDomain(DYNAMIC_LINK_DOMAIN)
-            .setAndroidParameters(DynamicLink.AndroidParameters.Builder()
-                .build())
+            .setAndroidParameters(
+                DynamicLink.AndroidParameters.Builder()
+                    .build()
+            )
 //                .setIosParameters(DynamicLink.IosParameters.Builder("ibi").setFallbackUrl()build())
             .buildDynamicLink()
         return dynamicLink.uri
