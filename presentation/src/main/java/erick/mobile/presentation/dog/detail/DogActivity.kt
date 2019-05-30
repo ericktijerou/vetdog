@@ -23,7 +23,8 @@ import javax.inject.Inject
 class DogActivity : DaggerAppCompatActivity() {
 
     private val DYNAMIC_LINK_DOMAIN = "vetdog.page.link"
-    private val QUERY_PARAM_SALAD = "dogId"
+    private val QUERY_PARAM_DOG = "dogId"
+    private var fromLink : Boolean = false
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -34,7 +35,7 @@ class DogActivity : DaggerAppCompatActivity() {
         DataBindingUtil.setContentView(this, R.layout.activity_dog)
     }
 
-    private val eventDetailViewModel by lazyThreadSafetyNone {
+    private val dogDetailViewModel by lazyThreadSafetyNone {
         ViewModelProviders.of(this, viewModelFactory).get(DogDetailViewModel::class.java)
     }
 
@@ -46,18 +47,21 @@ class DogActivity : DaggerAppCompatActivity() {
         setSupportActionBar(binder.toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        binder.dogDetailViewModel = eventDetailViewModel
+        binder.dogDetailViewModel = dogDetailViewModel
 
         FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnFailureListener {
             // error
         }.addOnSuccessListener {
             // deep link
-            val dogId = if (it == null) {
-                navigator.getDog(this)
+            val dogId: String
+            if (it == null) {
+                dogId = navigator.getDog(this)
+                fromLink = false
             } else {
-                it.link.getQueryParameter(QUERY_PARAM_SALAD)
+                dogId = it.link.getQueryParameter(QUERY_PARAM_DOG)
+                fromLink = true
             }
-            eventDetailViewModel.loadEventDetail(dogId)
+            dogDetailViewModel.loadDogDetail(dogId)
             fbShare.setOnClickListener {
                 share(dogId)
             }
@@ -65,7 +69,7 @@ class DogActivity : DaggerAppCompatActivity() {
 
 
 
-        eventDetailViewModel.dog.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+        dogDetailViewModel.dog.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(observable: Observable, propertyId: Int) {
                 (window.decorView as ViewGroup).doOnPreDraw {
                     supportStartPostponedEnterTransition()
@@ -93,7 +97,7 @@ class DogActivity : DaggerAppCompatActivity() {
         builder.scheme(getString(R.string.config_scheme))
             .authority(getString(R.string.config_host))
             .appendPath(getString(R.string.config_path_dogs))
-            .appendQueryParameter(QUERY_PARAM_SALAD, saladId)
+            .appendQueryParameter(QUERY_PARAM_DOG, saladId)
         return builder.build()
     }
 
