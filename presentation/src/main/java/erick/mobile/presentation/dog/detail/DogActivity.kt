@@ -129,7 +129,7 @@ class DogActivity : DaggerAppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val shortLink = task.result?.shortLink
-                    val msg = "Hey, check out this nutritious salad I found: $shortLink"
+                    val msg = "Hey, check out this breed of dog I found: $shortLink"
                     val sendIntent = Intent()
                     sendIntent.action = Intent.ACTION_SEND
                     sendIntent.putExtra(Intent.EXTRA_TEXT, msg)
