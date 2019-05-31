@@ -39,7 +39,7 @@ class MainActivity : DaggerAppCompatActivity(), DogListAdapter.Callbacks {
         binder.viewModel = viewModel
         binder.dogCallbacks = this
 
-        viewModel.loadDogList("med")
+        viewModel.loadDogList("med", navigator.getRefresh(this))
     }
 
     override fun onItemClick(view: View, item: DogModel) {

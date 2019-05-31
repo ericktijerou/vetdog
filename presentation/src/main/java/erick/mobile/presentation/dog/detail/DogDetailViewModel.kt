@@ -23,7 +23,7 @@ class DogDetailViewModel(context: Context,
     val dog = ObservableField<DogModel>()
     val error = ObservableField<String>()
 
-    fun loadEventDetail(id: String) = addDisposable(getEventById(id))
+    fun loadDogDetail(id: String) = addDisposable(getEventById(id))
 
     private fun getEventById(id: String): Disposable {
         return eventGetByIdUseCase.execute(id)

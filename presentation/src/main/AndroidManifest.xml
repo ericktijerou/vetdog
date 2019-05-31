@@ -17,7 +17,6 @@
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -25,6 +24,15 @@
                   android:parentActivityName=".dog.list.MainActivity"
                   android:theme="@style/AppTheme.Dog"
                   tools:targetApi="jelly_bean">
+            <intent-filter android:label="@string/filter_view_http_dogs">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                        android:host="@string/config_host"
+                        android:pathPrefix="/dog"
+                        android:scheme="@string/config_scheme"/>
+            </intent-filter>
         </activity>
     </application>
 

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "677028332045",
+    "firebase_url": "https://veterinary-2e70f.firebaseio.com",
+    "project_id": "veterinary-2e70f",
+    "storage_bucket": "veterinary-2e70f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677028332045:android:2e96ac5ff7815b47",
+        "android_client_info": {
+          "package_name": "erick.mobile.veterinary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677028332045-r9ds862vs85ms7bpi1ch0s45vf5gbbnq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "erick.mobile.veterinary",
+            "certificate_hash": "d3c54005f1829d0596633ae909f96f95f15b95c3"
+          }
+        },
+        {
+          "client_id": "677028332045-em2bksn62j7od3hg1hfgrqaepda71i6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY-2-hJgjjJxaaFRgRyzNXh9_HmsPjWR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677028332045-em2bksn62j7od3hg1hfgrqaepda71i6m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Veterinary</string>
+    <string name="app_name">Vetdog</string>
 
     <!--Menu Actions-->
     <string name="action_search">Search</string>
@@ -15,4 +15,8 @@
     <!--Formatting-->
     <string name="offer_price">Save £%1$.2f</string>
     <string name="minimum_price">From £%1$.2f</string>
+    <string name="config_scheme">http</string>
+    <string name="config_host">vetdog.page.link</string>
+    <string name="config_path_dogs">dog</string>
+    <string name="filter_view_http_dogs">Show Dog</string>
 </resources>
