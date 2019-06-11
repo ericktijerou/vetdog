@@ -9,7 +9,6 @@ The data is fetched from <a href='https://thedogapi.com/'>TheDogAPI</a>.</br>
 
 <p align="center">
   <img alt='Sample' src="https://raw.githubusercontent.com/ericktijerou/mvvm-architecture-components/master/art/vetdog.gif"></br>
-  <img alt='Sample' src="https://raw.githubusercontent.com/ericktijerou/mvvm-architecture-components/master/art/vetdog.gif"></br>
   <i>*Data from <a href='https://thedogapi.com/'>TheDogAPI</a></i></br>
 </p>
 
