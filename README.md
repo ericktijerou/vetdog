@@ -8,6 +8,6 @@ Pet project using Clean Architecture + MVVM + Reactive Extensions + Android Arch
 The data is fetched from <a href='https://thedogapi.com/'>TheDogAPI</a>.</br>
 
 <p align="center">
-  ![](art/vetdog.gif)
+  <img alt='Sample' src="https://raw.githubusercontent.com/ericktijerou/mvvm-architecture-components/master/art/vetdog.gif"></br>
   <i>*Data from <a href='https://thedogapi.com/'>TheDogAPI</a></i></br>
 </p>
